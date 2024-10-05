@@ -1,0 +1,4 @@
+db:
+  access: "mongodb://id:pass@address:27017/?authSoure=databasename"
+  name: "envdata"
+  collection: "test01"

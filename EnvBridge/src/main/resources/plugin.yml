@@ -1,0 +1,10 @@
+name: TDUCraft_Environment_Mirror
+version: '${version}'
+main: com.github.gentoopng.tducenvmirror.TDUCEnvMirror
+api-version: 1.19
+prefix: EnvMirror
+commands:
+  envmirror:
+    aliases: [ env, eb, envbridge ]
+    description: "EnvBridge - The digital twin platform for Minecraft JE."
+    usage: envmirror summon [quantity]
