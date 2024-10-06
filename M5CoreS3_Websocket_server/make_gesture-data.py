@@ -2,6 +2,9 @@ from websockets.server import serve
 import asyncio
 import numpy as np
 import cv2
+import socket
+HOST = socket.gethostname()
+IP = socket.gethostbyname(HOST)
 output_file = "Right_gesture.mp4"
 frame_rate = 30
 frame_size = (224,224)
@@ -19,7 +22,7 @@ async def echo(websocket,path):
 
 async def main():
     try:
-        async with serve(echo,"172.16.1.12",8008,max_size=100000000000000000):
+        async with serve(echo,IP,8008,max_size=100000000000000000):
             await asyncio.Future()  # run forever
     except KeyboardInterrupt:
         out.release()

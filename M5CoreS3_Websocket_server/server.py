@@ -6,6 +6,9 @@ import torch
 import torch.nn.functional as F
 import cv2
 import json
+import socket
+HOST = socket.gethostname()
+IP = socket.gethostbyname(HOST)
 from scipy.stats import entropy
 classes = ["UP","DOWN","LEFT","RIGHT","FORWARD"]
 net = cv2.dnn.readNetFromONNX("regularizedModel_2024-09-27.onnx")
@@ -43,7 +46,7 @@ async def echo(websocket,path):
         cv2.waitKey(10)
 
 async def main():
-    async with serve(echo,"172.16.1.12",8008,max_size=100000000000000000):
+    async with serve(echo,IP,8008,max_size=100000000000000000):
         await asyncio.Future()  # run forever
 
 asyncio.run(main())
