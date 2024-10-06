@@ -1,0 +1,324 @@
+[
+    {
+        "id": "318f10339f6c6dc6",
+        "type": "tab",
+        "label": "フロー 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c1f94857033f331a",
+        "type": "mqtt in",
+        "z": "318f10339f6c6dc6",
+        "name": "",
+        "topic": "/pub/env",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "bad9559a.3fb398",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 80,
+        "y": 340,
+        "wires": [
+            [
+                "94745c68ee66dde3",
+                "59e0eaf9635cd588"
+            ]
+        ]
+    },
+    {
+        "id": "94745c68ee66dde3",
+        "type": "json",
+        "z": "318f10339f6c6dc6",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 250,
+        "y": 340,
+        "wires": [
+            [
+                "9df01f1302b7a9d0"
+            ]
+        ]
+    },
+    {
+        "id": "9df01f1302b7a9d0",
+        "type": "function",
+        "z": "318f10339f6c6dc6",
+        "name": "function 2",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 340,
+        "wires": [
+            [
+                "3c3c5f8aefc4c7b7",
+                "6e2c40109061837c"
+            ]
+        ]
+    },
+    {
+        "id": "e8047098ae787545",
+        "type": "websocket out",
+        "z": "318f10339f6c6dc6",
+        "name": "",
+        "server": "21bdabd8.0026e4",
+        "client": "",
+        "x": 680,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "3c3c5f8aefc4c7b7",
+        "type": "mongodb out",
+        "z": "318f10339f6c6dc6",
+        "name": "",
+        "collection": "",
+        "payonly": false,
+        "upsert": false,
+        "multi": false,
+        "operation": "store",
+        "x": 620,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "6e2c40109061837c",
+        "type": "debug",
+        "z": "318f10339f6c6dc6",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "59e0eaf9635cd588",
+        "type": "debug",
+        "z": "318f10339f6c6dc6",
+        "name": "debug 15",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 260,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "a8f1ad14ef595147",
+        "type": "websocket in",
+        "z": "318f10339f6c6dc6",
+        "name": "",
+        "server": "",
+        "client": "22c56c77176851e3",
+        "x": 130,
+        "y": 120,
+        "wires": [
+            [
+                "c0651b60634fe3bd"
+            ]
+        ]
+    },
+    {
+        "id": "cb377c748c3adbbd",
+        "type": "websocket out",
+        "z": "318f10339f6c6dc6",
+        "name": "",
+        "server": "",
+        "client": "22c56c77176851e3",
+        "x": 680,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "8d71de1f0e62678d",
+        "type": "websocket in",
+        "z": "318f10339f6c6dc6",
+        "name": "",
+        "server": "19f0c78ad6551c8d",
+        "client": "",
+        "x": 110,
+        "y": 240,
+        "wires": [
+            [
+                "45bfc5e3c01e4676"
+            ]
+        ]
+    },
+    {
+        "id": "d409e07fd7c5baec",
+        "type": "comment",
+        "z": "318f10339f6c6dc6",
+        "name": "M5CoreS3からの画像情報",
+        "info": "",
+        "x": 130,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "98180164b9b9af34",
+        "type": "comment",
+        "z": "318f10339f6c6dc6",
+        "name": "Pythonで推論",
+        "info": "",
+        "x": 650,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "45bfc5e3c01e4676",
+        "type": "change",
+        "z": "318f10339f6c6dc6",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "_session",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 240,
+        "wires": [
+            [
+                "cb377c748c3adbbd"
+            ]
+        ]
+    },
+    {
+        "id": "f29f74a6c5a98c88",
+        "type": "debug",
+        "z": "318f10339f6c6dc6",
+        "name": "debug 19",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "c0651b60634fe3bd",
+        "type": "change",
+        "z": "318f10339f6c6dc6",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "_session",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 120,
+        "wires": [
+            [
+                "e8047098ae787545",
+                "f29f74a6c5a98c88"
+            ]
+        ]
+    },
+    {
+        "id": "8b075c2477938de1",
+        "type": "comment",
+        "z": "318f10339f6c6dc6",
+        "name": "推論結果取得",
+        "info": "",
+        "x": 110,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "b146dbbea708a88e",
+        "type": "comment",
+        "z": "318f10339f6c6dc6",
+        "name": "Spigotサーバーに送信",
+        "info": "",
+        "x": 700,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "bad9559a.3fb398",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "21bdabd8.0026e4",
+        "type": "websocket-listener",
+        "path": "/ws/pose",
+        "wholemsg": "false"
+    },
+    {
+        "id": "22c56c77176851e3",
+        "type": "websocket-client",
+        "path": "ws://172.16.1.12:8008",
+        "tls": "",
+        "wholemsg": "false",
+        "hb": "0",
+        "subprotocol": ""
+    },
+    {
+        "id": "19f0c78ad6551c8d",
+        "type": "websocket-listener",
+        "path": "/ws/m5CoreS3",
+        "wholemsg": "false"
+    }
+]
