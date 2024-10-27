@@ -82,7 +82,7 @@ void setup() {
 
   setClock();
 
-  webSocket.begin("172.16.1.12", 1880,"/ws/m5CoreS3");
+  webSocket.begin("172.16.1.5", 1880,"/ws/m5CoreS3");
 
   webSocket.onEvent(webSocketEvent);
 
@@ -117,5 +117,4 @@ void loop() {
   }
   webSocket.loop();
   last_value = cur_value;
-  delay(33);
 }

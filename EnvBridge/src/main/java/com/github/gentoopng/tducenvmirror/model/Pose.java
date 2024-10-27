@@ -1,4 +1,4 @@
-package com.github.gentoopng.tducenvmirror;
+package com.github.gentoopng.tducenvmirror.model;
 
 public class Pose {
     private String pose;

@@ -1,5 +1,5 @@
 package com.github.gentoopng.tducenvmirror.WebSocket;
-import com.github.gentoopng.tducenvmirror.Pose;
+import com.github.gentoopng.tducenvmirror.model.Pose;
 import com.github.gentoopng.tducenvmirror.TDUCEnvMirror;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
