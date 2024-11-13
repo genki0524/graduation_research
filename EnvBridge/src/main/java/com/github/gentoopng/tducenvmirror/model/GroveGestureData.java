@@ -1,15 +1,17 @@
 package com.github.gentoopng.tducenvmirror.model;
 
 public class GroveGestureData {
-    public String gesture_R;
+    public String smart_ir_gesture;
+    public String grove_gesture;
+    public String pose;
     public String gesture_L;
-    public String gesture;
-    public int dist;
+    public String gesture_R;
+    public String user_name;
 
-    public GroveGestureData(String gesture_R, String gesture_L ,int dist, String gesture) {
-        this.gesture_R = gesture_R;
-        this.gesture_L = gesture_L;
-        this.dist = dist;
-        this.gesture = gesture;
+    public GroveGestureData(String grove_gesture, String smart_ir_gesture,String pose) {
+        this.smart_ir_gesture = smart_ir_gesture;
+        this.grove_gesture = grove_gesture;
+        this.pose = pose;
     }
+
 }
