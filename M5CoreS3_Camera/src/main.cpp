@@ -13,20 +13,12 @@ int disp_h; // 画面高さ格納用
 int cur_value = 1;
 int last_value = 1;
 bool send_data =false;
-// const char ssid[] = "aterm-313d8b-g";
-// const char pass[] = "22c0393355c14";
 DFRobot_PAJ7620U2 sensor;
 const char ssid[] = "CPSLAB_WLX";
 const char pass[] = "6bepa8ideapbu";
-// const char ssid[] = "sensor-net";
-// const char pass[] = "sensor-net0101";
-// const char ssid[] = "NETGEAR65";
-// const char pass[] = "fuzzyflute955";
-// const char ssid[] = "iPhone (320)";
-// const char pass[] = "gjwt2135";
 WebSocketsClient webSocket;
 TaskHandle_t getGestureHandle = NULL;
-const String USERNAME = "cpslab";
+const String USERNAME = "edandandadan";
 
 void connectWiFi();
 
@@ -61,7 +53,6 @@ void sendBinryWithName(uint8_t* binaryData,size_t length){
   memcpy(combinedData,nameString.c_str(),nameLength);
   memcpy(combinedData + nameLength,binaryData,length);
   webSocket.sendBIN(combinedData,nameLength + length);
-  Serial.println("送信");
   free(combinedData);
 }
 
@@ -138,7 +129,7 @@ void setup() {
 
   connectWiFi();
 
-  webSocket.begin("172.16.1.20", 1880,"/ws/m5CoreS3");
+  webSocket.begin("172.16.1.13", 1880,"/ws/m5CoreS3");
 
   webSocket.onEvent(webSocketEvent);
 
