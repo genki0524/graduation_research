@@ -56,46 +56,44 @@ public class WebSocketClientForPose extends WebSocketClient{
                 String msg = data.toString();
                 try {
                     GroveGestureData gestureData = gson.fromJson(msg,GroveGestureData.class);
-                    Player movePlayer = getPlayerByName(gestureData.user_name);
-                    if(movePlayer!=null) {
                         if (gestureData.pose != null) {
                             if (gestureData.pose.equals("FORWARD") || gestureData.pose.equals("LEFT") || gestureData.pose.equals("RIGHT")) {
                                 Bukkit.getServer().getScheduler().runTask(mainClass, () -> {
-                                    Utils.walkPlayer(movePlayer, 0.2, gestureData.pose);
+                                    Utils.walkPlayer(player, 0.2, gestureData.pose);
                                 });
                             } else if (gestureData.pose.equals("UP")) {
-                                Utils.PlayerJump(movePlayer);
+                                Utils.PlayerJump(player);
                             }
                         }
                         if (gestureData.grove_gesture != null) {
                             switch (gestureData.grove_gesture) {
                                 case "Up":
-                                    runRotationTask(0, 30,movePlayer);
+                                    runRotationTask(0, 30,player);
                                     break;
                                 case "Down":
-                                    runRotationTask(0, -30,movePlayer);
+                                    runRotationTask(0, -30,player);
                                     break;
                                 case "Left":
-                                    runRotationTask(30, 0,movePlayer);
+                                    runRotationTask(30, 0,player);
                                     break;
                                 case "Right":
-                                    runRotationTask(-30, 0,movePlayer);
+                                    runRotationTask(-30, 0,player);
                                     break;
                                 case "Clockwise":
-                                    Utils.selectNextItem(movePlayer);
+                                    Utils.selectNextItem(player);
                                     break;
                                 case "Anti-Clockwise":
-                                    Utils.selectPreItem(movePlayer);
+                                    Utils.selectPreItem(player);
                                     break;
                                 case "Forward":
-                                    runUseItem(movePlayer);
+                                    runUseItem(player);
                                     break;
                                 case "Backward":
                                     backWardCnt += 1;
                                     if (backWardCnt % 2 == 1) {
-                                        Utils.giveItem(movePlayer, Material.DIAMOND_SWORD);
+                                        Utils.giveItem(player, Material.DIAMOND_SWORD);
                                     } else {
-                                        Utils.giveItem(movePlayer, Material.DIAMOND_AXE);
+                                        Utils.giveItem(player, Material.DIAMOND_AXE);
                                     }
                                     break;
                                 case "Wave":
@@ -105,38 +103,38 @@ public class WebSocketClientForPose extends WebSocketClient{
                         if (gestureData.gesture_R != null) {
                             switch (gestureData.gesture_R) {
                                 case "Up":
-                                    runRotationTask(0, -30,movePlayer);
+                                    runRotationTask(0, -30,player);
                                     break;
                                 case "Down":
-                                    runRotationTask(0, 30,movePlayer);
+                                    runRotationTask(0, 30,player);
                                     break;
                                 case "Right":
-                                    runMoveTask(-2.0,movePlayer);
+                                    runMoveTask(-2.0,player);
                                     break;
                                 case "Left":
-                                    runMoveTask(1.0,movePlayer);
+                                    runMoveTask(1.0,player);
                                     break;
                                 case "Forward":
-                                    runRotationTask(30, 0,movePlayer);
+                                    runRotationTask(30, 0,player);
                                     break;
                             }
                         }
                         if (gestureData.gesture_L != null) {
                             switch (gestureData.gesture_L) {
                                 case "Up":
-                                    runRotationTask(0, -30,movePlayer);
+                                    runRotationTask(0, -30,player);
                                     break;
                                 case "Down":
-                                    runRotationTask(0, 30,movePlayer);
+                                    runRotationTask(0, 30,player);
                                     break;
                                 case "Right":
-                                    runMoveTask(1.0,movePlayer);
+                                    runMoveTask(1.0,player);
                                     break;
                                 case "Left":
-                                    runMoveTask(-2.0,movePlayer);
+                                    runMoveTask(-2.0,player);
                                     break;
                                 case "Forward":
-                                    runRotationTask(-30, 0,movePlayer);
+                                    runRotationTask(-30, 0,player);
                                     break;
                             }
                         }
@@ -144,7 +142,6 @@ public class WebSocketClientForPose extends WebSocketClient{
                             System.out.println(gestureData.smart_ir_gesture);
                             Utils.getGroveGesture(gestureData.smart_ir_gesture, player);
                         }
-                    }
                 } catch (Exception e) {
                     mainClass.getLogger().info(msg);
                     e.printStackTrace();

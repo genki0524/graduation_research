@@ -6,7 +6,6 @@ public class GroveGestureData {
     public String pose;
     public String gesture_L;
     public String gesture_R;
-    public String user_name;
 
     public GroveGestureData(String grove_gesture, String smart_ir_gesture,String pose) {
         this.smart_ir_gesture = smart_ir_gesture;
