@@ -3,58 +3,17 @@
 #include "WiFiUdp.h"
 #include "string.h"
 #include <WebSocketsClient.h>
-#include <DFRobot_PAJ7620U2.h>
-#include <ArduinoJson.h>
 #include "stb_image_resize.h"
-#include <Wire.h>
-
 int disp_w; // 画面幅格納用
 int disp_h; // 画面高さ格納用
 int cur_value = 1;
 int last_value = 1;
 bool send_data =false;
-DFRobot_PAJ7620U2 sensor;
+// const char ssid[] = "aterm-313d8b-g";
+// const char passward[] = "22c0393355c14";
 const char ssid[] = "CPSLAB_WLX";
 const char pass[] = "6bepa8ideapbu";
 WebSocketsClient webSocket;
-TaskHandle_t getGestureHandle = NULL;
-const String USERNAME = "edandandadan";
-
-void connectWiFi();
-
-void sendDataWithName(const String& message){
-  StaticJsonDocument<200> jsonDoc;
-  jsonDoc["user_name"] = USERNAME;
-  jsonDoc["grove_gesture"] = message;
-  String jsonString;
-  serializeJson(jsonDoc,jsonString);
-  Serial.println(jsonString);
-  webSocket.sendTXT(jsonString);
-}
-
-
-void getGesture(){
-  DFRobot_PAJ7620U2::eGesture_t gesture = sensor.getGesture();
-  if (gesture != sensor.eGestureNone){
-    String description = sensor.gestureDescription(gesture);
-    Serial.println(description);
-    sendDataWithName(description);
-    if (WiFi.status() == WL_DISCONNECTED){
-      connectWiFi();
-    }
-  }
-}
-
-void sendBinryWithName(uint8_t* binaryData,size_t length){
-  String nameString = String("Name:") + USERNAME + ";";
-  size_t nameLength = nameString.length();
-
-  uint8_t* combinedData = (uint8_t*)malloc(nameLength + length);
-  memcpy(combinedData,nameString.c_str(),nameLength);
-  memcpy(combinedData + nameLength,binaryData,length);
-  webSocket.sendBIN(combinedData,nameLength + length);
-  free(combinedData);
-}
 
 void setClock() {
     configTime(0, 0, "pool.ntp.org", "time.nist.gov");
@@ -76,6 +35,7 @@ void setClock() {
 }
 
 void connectWiFi(){
+  Serial.begin(115200);
   WiFi.begin(ssid,pass);
   while(WiFi.status() != WL_CONNECTED){
     delay(500);
@@ -110,37 +70,37 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 void setup() {
   auto cfg = M5.config(); // 本体初期化
   CoreS3.begin(cfg);
+  pinMode(8,INPUT);
+  for(uint8_t t = 4; t > 0; t--) {
+		Serial.printf("[SETUP] BOOT WAIT %d...\n", t);
+		Serial.flush();
+		delay(1000);
+	}
+  Serial.println("connected");
+
+  connectWiFi();
+
+  setClock();
+
+  webSocket.begin("172.16.1.5", 1880,"/ws/m5CoreS3");
+
+  webSocket.onEvent(webSocketEvent);
+
+  webSocket.setReconnectInterval(5000);
+  
   disp_w = CoreS3.Display.width();  // 画面幅取得
   disp_h = CoreS3.Display.height(); // 画面高さ取得
 
   CoreS3.Camera.begin(); // カメラ初期化
-  pinMode(8,INPUT);
-  Serial.begin(115200);
-  delay(300);
-
-  Serial.println("PAJ7620U2 Init");
-  Wire.begin();
-  while (sensor.begin() != 0) {
-    Serial.print("initial PAJ7620U2 failure!");
-    delay(500);
-  }
-  sensor.setGestureHighRate(true);
-  Serial.println("PAJ7620U2 init succeed.");
-
-  connectWiFi();
-
-  webSocket.begin("172.16.1.13", 1880,"/ws/m5CoreS3");
-
-  webSocket.onEvent(webSocketEvent);
-
-  webSocket.setReconnectInterval(500);
-  
 }
 
 // メイン --------------------------------------------------------------------
 void loop() {
   cur_value = digitalRead(8);
+  Serial.print("cur_value:");
+  Serial.println(cur_value);
   if(cur_value==0 && last_value==1){
+    Serial.println("button is pressed");
     send_data = !send_data;
   }
   uint8_t* out_jpg;
@@ -149,13 +109,12 @@ void loop() {
   if (CoreS3.Camera.get()) {
     if(send_data){
       frame2jpg(CoreS3.Camera.fb,40,&out_jpg,&out_len);
-      sendBinryWithName(out_jpg,out_len);
+      webSocket.sendBIN(out_jpg,out_len);
       free(out_jpg);
     }
     CoreS3.Display.pushImage(0, 0, disp_w, disp_h,(uint16_t*)CoreS3.Camera.fb->buf); // QVGA表示 (x, y, w, h, *data)
     CoreS3.Camera.free(); // 取得したフレームを解放
   }
-  getGesture();
   webSocket.loop();
   last_value = cur_value;
 }
