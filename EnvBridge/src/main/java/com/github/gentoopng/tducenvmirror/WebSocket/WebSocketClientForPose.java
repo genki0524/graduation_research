@@ -63,6 +63,11 @@ public class WebSocketClientForPose extends WebSocketClient{
                                 });
                             } else if (gestureData.pose.equals("UP")) {
                                 Utils.PlayerJump(player);
+                            }else if (gestureData.pose.equals(("DOWN"))){
+                                Bukkit.getServer().getScheduler().runTask(mainClass, () -> {
+                                    Utils.setWeather(player);
+                                });
+                                    Utils.setWeather(player);
                             }
                         }
                         if (gestureData.grove_gesture != null) {

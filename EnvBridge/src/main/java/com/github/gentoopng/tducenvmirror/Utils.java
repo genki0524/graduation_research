@@ -219,7 +219,10 @@ public class Utils {
         setPlayerItem(player, (currentItemSlot - 1 + 9) % 9);
     }
 
-
+    public static void setWeather(Player player){
+        player.getWorld().setStorm(true);
+        player.getWorld().setThundering(false);
+    }
 
 
 

@@ -18,6 +18,7 @@ IP = socket.gethostbyname(HOST)
 from scipy.stats import entropy
 classes = ["UP","DOWN","LEFT","RIGHT","FORWARD"]
 net = cv2.dnn.readNetFromONNX("regularizedModel_2024-09-27.onnx")
+result_buffer = []
 
 def get_local_ip():
     with socket.socket(socket.AF_INET,socket.SOCK_DGRAM) as s:
@@ -34,6 +35,7 @@ async def echo(websocket,path):
             if isinstance(message,bytes):
                     arr = np.asarray(bytearray(message), dtype=np.uint8)
                     img = cv2.imdecode(arr, -1)
+                    global result_buffer
                     if img is not None and img.size > 0:
                         img = cv2.resize(img,(224,224))
                         img = img.astype(np.float32)/255.0
@@ -54,7 +56,12 @@ async def echo(websocket,path):
                             result = "Nothing"
                         else:
                             result = classes[np.argmax(output)]
-                        await websocket.send(json.dumps({"pose":result}))
+                        result_buffer.append(result)
+                        if len(result_buffer) >= 5:
+                            temp_result_buffer = result_buffer.copy()
+                            result_buffer.clear()
+                            if all(val == temp_result_buffer[0] for val in temp_result_buffer):
+                                await websocket.send(json.dumps({"pose":result}))
                         print("--------------------")
                         print("result: ",result)
                         print(f"UP: ",output[0][0],"\nDOWN: ",output[0][1], "\nLEFT: ",output[0][2], " \nRIGHT: ",output[0][3], "\nFORWARD: ", output[0][4])
