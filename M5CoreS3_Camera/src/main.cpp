@@ -16,10 +16,12 @@ bool send_data =false;
 // const char ssid[] = "aterm-313d8b-g";
 // const char pass[] = "22c0393355c14";
 DFRobot_PAJ7620U2 sensor;
-const char ssid[] = "CPSLAB_WLX";
-const char pass[] = "6bepa8ideapbu";
-// const char ssid[] = "sensor-net";
-// const char pass[] = "sensor-net0101";
+// const char ssid[] = "CPSLAB_WLX";
+// const char pass[] = "6bepa8ideapbu";
+// const char ssid[] = "okinawa_sangyoushien_wi-fi";
+// const char pass[] = "sangyou6234";
+const char ssid[] = "sensor-net";
+const char pass[] = "sensor-net0101";
 // const char ssid[] = "NETGEAR65";
 // const char pass[] = "fuzzyflute955";
 // const char ssid[] = "iPhone";
@@ -124,7 +126,7 @@ void setup() {
 
   connectWiFi();
 
-  webSocket.begin("172.16.1.13", 1880,"/ws/m5CoreS3");
+  webSocket.begin("192.168.68.100", 1880,"/ws/m5CoreS3");
 
   webSocket.onEvent(webSocketEvent);
 
