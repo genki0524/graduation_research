@@ -9,6 +9,7 @@ ipython = "*"
 matplotlib = "*"
 torch = "*"
 torchvision = "*"
+torchinfo = "*"
 
 [dev-packages]
 ipykernel = "*"

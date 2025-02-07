@@ -52,6 +52,7 @@ class ModelTrainer:
                 for inputs, labels in self.dataloaders[phase]: #バッチごとの処理
                     inputs = inputs.to(self.device)
                     labels = labels.to(self.device)
+                    print(inputs.size())
 
                     self.optimizer.zero_grad()
 
